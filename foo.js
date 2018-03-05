@@ -4,25 +4,38 @@ var url = require('url');
 
 
 function onRequest(req, res) {
-    console.log("got request from '" + req.url + "'")
-    if (req.url == '/home' || req.url == '/') {
+    // https://stackoverflow.com/questions/18931452/node-js-get-path-from-the-request
+    var queryData = url.parse(req.url, true).query;
+    var pathname = url.parse(req.url, true).pathname;
+    console.log("got request from " + pathname);
+    if (pathname == '/home' || pathname == '/') {
         res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write('<h1>Welcome to the Home Page</h1>');
+        res.write('<h1>Welcome to the Home Page</h1><h2>type /calc to play with the calculation function</h2>');
     } 
-    else if (req.url == '/getData') {
+    else if (pathname == '/getData') {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.write('{"name":"Br. Burton","class":"cs313"}');
     }
-    else if (req.url == '/calc') {
-        var queryData = url.parse(req.url, true).query;
-        if(!queryData.val1 || !queryData.val2 || !queryData.type) {
+    else if (pathname == '/calc') {
+        console.log(queryData);
+        if(!queryData.valOne || !queryData.valTwo || !queryData.type) {
             res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write('<h1>Arguments Incorrect: need val1 val2 and type </h1>');
+            res.write('<h1>Arguments Incorrect: GET parameters are "valOne" "valTwo" and "type"</h1>');
         }
         else {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            var sum = queryData.val1 + queryData.val2;
-            res.write('<h1>' + sum + '</h1>');
+            if (queryData.type == 'html') {
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                var sum = parseInt(queryData.valOne) + parseInt(queryData.valTwo);
+                res.write('<h1>' + sum + '</h1>');
+            }
+            else if (queryData.type == 'json') {
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                var sum = parseInt(queryData.valOne) + parseInt(queryData.valTwo);
+                res.write('{"sum":' + sum + '}');
+            }
+            else {
+                res.write('<h1>type argument not specified: "type" must be set to either "json" or "html"</h1>');
+            }
         }    
     }
     else {
