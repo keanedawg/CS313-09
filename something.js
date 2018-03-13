@@ -4,6 +4,8 @@ const express = yabba_dabba_doo;
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded()); // to support URL-encoded bodies
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res){ 
@@ -14,7 +16,17 @@ app.get('/getrate', function(req, res){
     res.render('getRate.ejs',{rate:calculateRate(req.query.weight, req.query.type)});
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.post('/getrate', function(req, res){ 
+    console.log(req.body.weight);
+    res.render('getRate.ejs',{rate:calculateRate(req.body.weight, req.body.type)});
+});
+
+app.route('/getrate/:weight/:type', function(req, res){ 
+    console.log();
+    res.render('getRate.ejs',{rate:calculateRate(req.query.weight, req.query.type)});
+});
+
+app.listen(3000, () => console.log('App listening on port 3000!'))
 
 
 function calculateRate(weight, type) {
