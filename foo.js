@@ -1,3 +1,5 @@
+// Week08 materials. This can be ignored but wanted to store it somewhere.
+
 var http = require("http");
 var url = require('url');
 
