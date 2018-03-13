@@ -9,6 +9,11 @@ app.set('view engine', 'ejs');
 app.get('/', function(req, res){ 
     res.render('index.ejs',{user: "Great User",title:"homepage"});
 });
+app.get('/getrate', function(req, res){ 
+    console.log();
+    res.render('getRate.ejs',{rate:calculateRate(req.query.weight, req.query.type)});
+});
+
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
 
