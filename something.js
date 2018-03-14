@@ -89,7 +89,7 @@ function calculateRate(weight, type) {
     }
 
     // always round to and display 2 decimal places.
-    return (Math.round(cost * 100) / 100).toFixed(2);
+    return "$" + (Math.round(cost * 100) / 100).toFixed(2);
 
 
 }
