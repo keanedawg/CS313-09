@@ -21,7 +21,10 @@ app.post('/getrate', function(req, res){
     res.render('getRate.ejs',{rate:calculateRate(req.body.weight, req.body.type)});
 });
 
-app.get('/getrate/:weight/:type', function(req, res){ 
+// Today I learned that if you are using URL params, you must make sure you're not sharing a name
+// with another URL. I originally had the URL set to 'getrate' but this url was failing to be
+// recognized. 
+app.get('/calcrate/:weight/:type', function(req, res){ 
     console.log(req.params);
     res.render('getRate.ejs',{rate:calculateRate(req.params.weight, req.params.type)});
 });
