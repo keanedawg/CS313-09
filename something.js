@@ -21,9 +21,9 @@ app.post('/getrate', function(req, res){
     res.render('getRate.ejs',{rate:calculateRate(req.body.weight, req.body.type)});
 });
 
-app.route('/getrate/:weight/:type', function(req, res){ 
-    console.log();
-    res.render('getRate.ejs',{rate:calculateRate(req.query.weight, req.query.type)});
+app.get('/getrate/:weight/:type', function(req, res){ 
+    console.log(req.params);
+    res.render('getRate.ejs',{rate:calculateRate(req.params.weight, req.params.type)});
 });
 
 app.listen(3000, () => console.log('App listening on port 3000!'))

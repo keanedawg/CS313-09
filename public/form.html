@@ -3,16 +3,21 @@
     <head>
         <script>
             function sendForm(submitType) {
-                var kvpairs = [];
-                var form = document.getElementsByTagName("form")[0]; // get the form somehow
-                for ( var i = 0; i < form.elements.length; i++ ) {
-                    var e = form.elements[i];
-                    kvpairs.push(encodeURIComponent(e.name) + "=" + encodeURIComponent(e.value));
+                if (submitType == 'route') {
+                    var form = document.getElementsByTagName("form")[0]; // get the form somehow
+                    var url = "/getrate"
+                    for ( var i = 0; i < 2; i++ ) {
+                        var e = form.elements[i];
+                        url += "/" + e.value;
+                    }
+                    console.log(url);
+                    window.location.href = url;
+                    
                 }
-                var queryString = kvpairs.join("&");
-                form.method="get";
-                form.submit();
-                console.log(queryString);
+                else {
+                    form.method="get";
+                    form.submit();
+                }
             }
         </script>
 
