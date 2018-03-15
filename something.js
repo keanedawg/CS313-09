@@ -24,7 +24,7 @@ app.post('/getrate', function(req, res){
 // Today I learned that if you are using URL params, you must make sure you're not sharing a name
 // with another URL. I originally had the URL set to 'getrate' but this url was failing to be
 // recognized. 
-app.get('/calcrate/:weight/:type', function(req, res){ 
+app.get('/getrate/:weight/:type', function(req, res){ 
     console.log(req.params);
     res.render('getRate.ejs',{rate:calculateRate(req.params.weight, req.params.type)});
 });
@@ -36,8 +36,7 @@ function calculateRate(weight, type) {
     var ic; // initial cost
     var r;  // rate
     var inc = 1; // rate of incrementing cost, assumes 1 by default 
-    var max;
-    // I had to copy/paste all these values in. I couldn't find a quicker way to do this
+    var max; // maximum possible weight
     if (type == "stamped") {
         ic = 0.50;
         r = .21;
